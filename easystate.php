@@ -18,8 +18,9 @@ define('EASYSTATE_API_PLUGIN', plugin_dir_path(__FILE__));
 require_once EASYSTATE_API_PLUGIN . 'inc/easystate-initial.php';
 require_once EASYSTATE_API_PLUGIN . 'inc/easystate-activation.php';
 require_once EASYSTATE_API_PLUGIN . 'inc/easystate-deactivation.php';
-require_once EASYSTATE_API_PLUGIN . 'inc/easystate-data-fetcher.php';
-require_once EASYSTATE_API_PLUGIN . 'inc/easystate-data-storage.php';
+require_once EASYSTATE_API_PLUGIN . 'inc/easystate-api-manager.php';
+require_once EASYSTATE_API_PLUGIN . 'inc/easystate-properties-manager.php';
+require_once EASYSTATE_API_PLUGIN . 'inc/easystate-property.php';
 
 // Initialize the plugin
 $easyStateAPIPlugin = new EasyStateAPIPlugin();
@@ -31,17 +32,11 @@ register_deactivation_hook(__FILE__, [$easyStateAPIPlugin, 'plugin_deactivation'
 if( function_exists('acf_add_options_page') ) {
 
     acf_add_options_page(array(
-        'page_title'    => 'Realtyna API',
-        'menu_title'    => 'Realtyna API Setting',
-        'menu_slug'     => 'realtyna-api-settings',
+        'page_title'    => 'Realtyna API Credentials',
+        'menu_title'    => 'Realtyna API Credentials',
+        'menu_slug'     => 'realtyna-api-credentials',
         'capability'    => 'edit_posts',
         'redirect'      => false
-    ));
-
-    acf_add_options_sub_page(array(
-        'page_title'    => 'Credentials',
-        'menu_title'    => 'Credentials',
-        'parent_slug'   => 'realtyna-api-settings',
     ));
 
 }

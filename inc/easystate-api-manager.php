@@ -1,6 +1,6 @@
 <?php
 
-class EasyStateDataFetcher
+class EasyStateApiManager
 {
     private string $api_url;
     private string $api_key;
@@ -11,18 +11,18 @@ class EasyStateDataFetcher
         $this->api_url = get_field('realtyna_url', 'option');
         $this->api_key = get_field('realtyna_api', 'option');
         $this->auth_token = get_field('realtyna_api_token', 'option');
-    }
 
-    public function fetch_data()
+    }
+    public function fetch_data($page = 1, $per_page = 20, $fields = 'ALL', $filters = '', $orderby = 'ASC')
     {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->api_url,
+            CURLOPT_URL => $this->api_url . "?select=ALL&top=1'",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
+            CURLOPT_TIMEOUT => 300,
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
@@ -44,8 +44,7 @@ class EasyStateDataFetcher
 
         if (isset($properties['value']) && !empty($properties['value'])) {
             error_log('Properties fetched: ' . count($properties['value']));
-            $dataStorage = new EasyStateDataStorage();
-            $dataStorage->store_data($properties['value']);
+            return $properties['value'];
         } else {
             error_log('API response empty or invalid');
         }
