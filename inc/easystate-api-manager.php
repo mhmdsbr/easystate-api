@@ -15,39 +15,38 @@ class EasyStateApiManager
     }
     public function fetch_data($page = 1, $per_page = 20, $fields = 'ALL', $filters = '', $orderby = 'ASC')
     {
-        $curl = curl_init();
+        $url = $this->api_url . "?select=ALL&top=5";
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => $this->api_url . "?select=ALL&top=1'",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 300,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPHEADER => array(
-                'x-api-key: ' . $this->api_key,
-                'Authorization: ' . $this->auth_token
+        $response = wp_remote_get($url, array(
+            'timeout'     => 500,
+            'headers'     => array(
+                'x-api-key' => $this->api_key,
+                'Authorization' => $this->auth_token
             ),
         ));
 
-        $response = curl_exec($curl);
-
-        if (curl_errno($curl)) {
-            error_log('Error fetching data from API: ' . curl_error($curl));
+        if (is_wp_error($response)) {
+            error_log('Error fetching data from API: ' . $response->get_error_message());
+            return false;
         }
 
-        curl_close($curl);
+        $status_code = wp_remote_retrieve_response_code($response);
+        $body = wp_remote_retrieve_body($response);
 
-        $properties = json_decode($response, true);
-
-        if (isset($properties['value']) && !empty($properties['value'])) {
-            error_log('Properties fetched: ' . count($properties['value']));
-            return $properties['value'];
+        if ($status_code == 200) {
+            $properties = json_decode($body, true);
+            if (isset($properties['value']) && !empty($properties['value'])) {
+                error_log('Properties fetched: ' . count($properties['value']));
+                return $properties['value'];
+            } else {
+                error_log('API response empty or invalid');
+                return false;
+            }
         } else {
-            error_log('API response empty or invalid');
+            error_log('API returned status code: ' . $status_code);
+            return false;
         }
     }
+
 }
 

@@ -3,7 +3,7 @@
 class EasyStatePropertiesManager
 {
     private EasyStateApiManager $api_manager;
-    private $propertiesData = [];
+    private array $propertiesData = [];
 
     public function __construct()
     {

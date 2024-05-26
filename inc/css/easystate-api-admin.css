@@ -1,0 +1,28 @@
+.easystate-admin-wrap {
+    position: relative;
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.easystate-admin-button {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+.easystate-spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #5e5e5e;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin-left: 10px;
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

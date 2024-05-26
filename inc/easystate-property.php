@@ -14,7 +14,7 @@ class EasyStateProperty
             return;
         }
 
-        $property_title = $this->propertyData['ListingKey'];
+        $property_title = $this->propertyData['UnparsedAddress'];
         $property_unique_id = $this->propertyData['ListingKey'];
         $post_id = $this->get_post_id_by_listing_key($property_unique_id);
         error_log($post_id);
@@ -49,12 +49,12 @@ class EasyStateProperty
         $media_items = $this->propertyData['Media'];
         $featured_image_set = false;
         $gallery_ids = [];
-        $i = 0;
+//        $i = 0;
         foreach ($media_items as $media) {
-            $i++;
-            if($i>2) {
-                break;
-            }
+//            $i++;
+//            if($i>2) {
+//                break;
+//            }
             $media_url = $media['MediaURL'];
             $media_id = $this->upload_media($media_url, $post_id);
             if (!$featured_image_set) {
@@ -126,7 +126,6 @@ class EasyStateProperty
             $url
         );
 
-        // Get attachment ID
         $attachment_id = $wpdb->get_var($query);
 
         if ($attachment_id) {
