@@ -32,4 +32,48 @@ jQuery(document).ready(function($) {
             alert( "error" );
         });
     });
+
+    $('#clear_queue').on('click', function(e) {
+        e.preventDefault();
+
+        const data = {
+            action: 'easystate_ajax_clear_queue',
+        };
+
+        // Perform AJAX request
+        $.post(easystate_ajax_obj.ajax_url, data, function(response) {
+            alert('Data Cleared successfully');
+
+        }).fail(function() {
+            alert( "error" );
+        });
+    });
+
+    $('#es_api_settings\\[es_agent_select\\]').select2({
+        allowClear: true
+    });
+
+    $('#check_api_credentials').on('click', function(e) {
+        e.preventDefault();
+        const clientId = $('#es_api_credentials\\[es_client_id\\]').val();
+        const clientSecret = $('#es_api_credentials\\[es_client_secret\\]').val();
+
+        const data = {
+            action: 'easystate_ajax_check_credentials',
+            es_client_id: clientId,
+            es_client_secret: clientSecret,
+        };
+
+        $.post(easystate_ajax_obj.ajax_url, data, function(response) {
+            console.log(response);
+            if (response.success) {
+                alert(response.data);
+            } else {
+                alert(response.data);
+            }
+        }).fail(function() {
+            alert("An error occurred. Please try again.");
+        });
+    });
+
 });
