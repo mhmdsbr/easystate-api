@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: EasyState API Plugin
-Plugin URI: https://easystate.com/easystate-api
+Plugin URI: https://mohammadsaber.com
 Description: A plugin to fetch and display data from the Realtyna MLS router API
 Version: 1.0
-Author: Easystate
-Author URI: https://easystate.com
+Author: Mohammad Saber
+Author URI: https://mohammadsaber.com
 License: GPL2
 */
 
